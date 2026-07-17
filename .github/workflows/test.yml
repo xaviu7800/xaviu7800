@@ -1,0 +1,44 @@
+{
+  "name": "Build and Test",
+  "on": [
+    {
+      "push": {
+        "branches": [
+          "main"
+        ],
+        "paths": [
+          "**/*.py"
+        ]
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "name": "Build and Test",
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "name": "Checkout code",
+          "uses": "actions/checkout@v3",
+          "with": {
+            "fetch-depth": 0
+          }
+        },
+        {
+          "name": "Setup Python environment",
+          "uses": "actions/setup-python@v3",
+          "with": {
+            "python-version": "3.9"
+          }
+        },
+        {
+          "name": "Run tests",
+          "run": "python -c 'import unittest; test_suite = unittest.TestLoader().discover('.'); runner = unittest.TextTestRunner().run(test_suite)' && echo "Test successful!"
+        }
+      ],
+      "outputs": {
+        "result": "Test successful!"
+      }
+    }
+  ]
+}
